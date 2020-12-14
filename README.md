@@ -4,8 +4,8 @@
 Ab300 Subject 009
 Manual                     | Automatic
 :-------------------------:|:-------------------------:
-<img src="./results/ab300_009/whole_gt.png" width="400">  |  <img src="./results/ab300_009/whole_pred.png" width="400">
-<img src="./results/ab300_009/hbt_gt.png" width="400">  |  <img src="./results/ab300_009/hbt_pred.png" width="400">
+<img src="./results/ab300_009/whole_gt.png" width="250">  |  <img src="./results/ab300_009/whole_pred.png" width="250">
+<img src="./results/ab300_009/hbt_gt.png" width="250">  |  <img src="./results/ab300_009/hbt_pred.png" width="250">
 
 ### Setup
 This segmentation package was tested with python 3.7. Other python 3 versions may work as well.  

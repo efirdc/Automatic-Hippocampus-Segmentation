@@ -2,6 +2,7 @@ import argparse
 import torch
 import torchio as tio
 from tqdm import tqdm
+import os
 
 from context import Context, context_globals
 from models import NestedResUNet6
@@ -50,6 +51,10 @@ if __name__ == "__main__":
     print("using device", device)
 
     context = Context(device, file_name=args.model_path, variables=dict(DATASET_FOLDER=args.dataset_path))
+
+    if args.out_folder != "" and not os.path.exists(args.out_folder):
+        print(args.out_folder, "does not exist. Creating it.")
+        os.makedirs(args.out_folder)
 
     for i in tqdm(range(len(context.dataset) // 2)):
         out_folder = args.out_folder

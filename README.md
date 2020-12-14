@@ -42,12 +42,12 @@ optional arguments:
                         Redirect all output to a folder. Otherwise, the output
                         will be placed in each subjects folder.
 
-
-Example usage:
 ```
+Example usage:
+```bash
 python run_segmentation.py "E:/models/whole_model.pt" "E:/Datasets/Diffusion_MRI/Subjects/" whole_pred.nii.gz
 ```
 
-```
+```bash
 python run_segmentation.py "E:/models/hbt_model.pt" "E:/Datasets/Diffusion_MRI/Subjects/" hbt_pred.nii.gz --out_folder "E:/Datasets/Diffusion_MRI/HBT_Predictions/"
 ```

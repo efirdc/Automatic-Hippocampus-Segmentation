@@ -4,8 +4,8 @@
 Ab300 Subject 009
 Manual                     | Automatic
 :-------------------------:|:-------------------------:
-![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_gt.png)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_pred.png)  
-![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/hbt_gt.png)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/hbt_pred.png)
+![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_gt.png =250x)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_pred.png =250x)  
+![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/hbt_gt.png =250x)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/hbt_pred.png =250x)
 
 ### Setup
 This segmentation package was tested with python 3.7. Other python 3 versions may work as well.  

@@ -53,7 +53,7 @@ if __name__ == "__main__":
     for i in tqdm(range(len(context.dataset) // 2)):
         out_folder = args.out_folder
         if out_folder == "":
-            out_folder = context.dataset.subject_dataset.subject_folders[i]
+            out_folder = context.dataset.subjects_dataset.subject_folders[i]
         else:
             out_folder += context.dataset.subjects_dataset.subject_folder_names[i] + "_"
         out_seg = hippo_inference(context, i)

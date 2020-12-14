@@ -18,7 +18,7 @@ def hippo_inference(context, i):
         right_side = context.model(context.dataset[i*2 + 1][0].to(context.device))[0]
     left_side = torch.argmax(left_side, dim=0).unsqueeze(0)
     right_side = torch.argmax(right_side, dim=0).unsqueeze(0)
-    right_side[right_side != 0] += torch.max(left_side)
+    left_side[left_side != 0] += torch.max(right_side)
     right_side = torch.flip(right_side, dims=(1,))
     out = torch.cat((right_side, left_side), dim=1)
     out = inverse_transforms(out.cpu())
@@ -28,13 +28,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Auto Hippocampus Segmentation")
     parser.add_argument("model_path", type=str, help="Path to the model.")
     parser.add_argument("dataset_path", type=str, help="Path to the subjects data folders.")
-    parser.add_argument("output_filename", type=str, help="File name for segmentation output.")
+    parser.add_argument("output_filename", type=str, help="File name for segmentation output. "
+                        "Can specify .nii or .nii.gz if compression is desired.")
     parser.add_argument("--device", type=str, default="cuda",
         help="PyTorch device to use. Set to 'cpu' if there are issues with gpu usage. A specific gpu can be selected"
-                        "using 'cuda:0' or 'cuda:1' on a multi-gpu machine."
+                        " using 'cuda:0' or 'cuda:1' on a multi-gpu machine."
     )
     parser.add_argument("--out_folder", type=str, default="",
-         help="Redirect all output to a folder. Otherwise, the output will be placed in the subjects folder."
+         help="Redirect all output to a folder. Otherwise, the output will be placed in each subjects folder."
     )
     args = parser.parse_args()
 

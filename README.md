@@ -1,5 +1,12 @@
 # Automatic-Hippocampus-Segmentation
 
+### Results
+Ab300 Subject 009
+Manual                     | Automatic
+:-------------------------:|:-------------------------:
+![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_gt.png)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_pred.png)  
+![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/hbt_gt.png)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/hbt_pred.png)
+
 ### Setup
 This segmentation package was tested with python 3.7. Other python 3 versions may work as well.  
 The necessary python packages can be installed with `pip install -r requirements.txt`.
@@ -51,10 +58,3 @@ python run_segmentation.py "E:/models/whole_model.pt" "E:/Datasets/Diffusion_MRI
 ```bash
 python run_segmentation.py "E:/models/hbt_model.pt" "E:/Datasets/Diffusion_MRI/Subjects/" hbt_pred.nii.gz --out_folder "E:/Datasets/Diffusion_MRI/HBT_Predictions/"
 ```
-
-### Results
-Ab300 Subject 009
-Manual                     | Automatic
-:-------------------------:|:-------------------------:
-![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_gt.png)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_pred.png)  
-![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/hbt_gt.png)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/hbt_pred.png)

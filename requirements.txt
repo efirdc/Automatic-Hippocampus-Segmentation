@@ -1,0 +1,7 @@
+torch==1.7.0+cu101
+torchaudio==0.7.0
+torchio==0.17.53
+torchvision==0.8.1+cu101
+tqdm==4.51.0
+json5==0.9.5
+jsonschema==3.2.0

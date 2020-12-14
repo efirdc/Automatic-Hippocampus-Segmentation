@@ -53,6 +53,7 @@ python run_segmentation.py "E:/models/hbt_model.pt" "E:/Datasets/Diffusion_MRI/S
 ```
 
 ### Results
+Ab300 Subject 009
 Manual                     | Automatic
 :-------------------------:|:-------------------------:
 ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_gt.png)  |  ![](https://github.com/efirdc/Automatic-Hippocampus-Segmentation/blob/master/results/ab300_009/whole_pred.png)  

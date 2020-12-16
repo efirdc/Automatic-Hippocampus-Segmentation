@@ -32,8 +32,10 @@ The file name must match exactly, but the extension does not matter.
 
 ```
 usage: run_segmentation.py [-h] [--device DEVICE] [--out_folder OUT_FOLDER]
+                           [--keep_isolated_components] [--keep_holes]
+                           [--lateral_uniformity] [--output_raw_probabilities]
                            model_path dataset_path output_filename
-                           
+
 positional arguments:
   model_path            Path to the model.
   dataset_path          Path to the subjects data folders.
@@ -48,6 +50,15 @@ optional arguments:
   --out_folder OUT_FOLDER
                         Redirect all output to a folder. Otherwise, the output
                         will be placed in each subjects folder.
+  --keep_isolated_components
+                        Don't remove isolated components in the post
+                        processing pipeline. (on by default)
+  --keep_holes          Don't remove holes in the post processing pipeline.
+                        (on by default)
+  --lateral_uniformity  Make HBT ROIs uniform on the lateral axis.
+  --output_raw_probabilities
+                        Output the raw probabilties from the network instead
+                        of converting them to a segmentation map
 
 ```
 Example usage:

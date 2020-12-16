@@ -9,7 +9,10 @@ Manual                     | Automatic
 
 ### Setup
 This segmentation package was tested with python 3.7. Other python 3 versions may work as well.  
-The necessary python packages can be installed with `pip install -r requirements.txt`.
+Several python packages are required. You can install them using the `requirements.txt` file included in the repository.  
+Just run the following command: `pip install -r /path/to/requirements.txt`.  
+
+Note: Depending on how your system is configured, you may have to specify `pip3` and `python3` to use python 3 instead of python 2.
 
 ### Dataset
 The current implementation requires that the dataset is organized into a certain folder structure.  

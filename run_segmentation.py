@@ -110,6 +110,15 @@ if __name__ == "__main__":
 
     context = Context(device, file_name=args.model_path, variables=dict(DATASET_FOLDER=args.dataset_path))
 
+    # Fix torchio deprecating something...
+    fixed_transform = tio.Compose([
+        tio.RescaleIntensity((-1, 1), (0.5, 99.5)),
+        tio.Crop((62, 62, 70, 58, 0, 0)),
+        tio.Pad((0, 0, 0, 0, 2, 2)),
+        tio.ZNormalization(),
+    ])
+    context.dataset.subjects_dataset.subject_dataset.set_transform(fixed_transform)
+
     if args.out_folder != "" and not os.path.exists(args.out_folder):
         print(args.out_folder, "does not exist. Creating it.")
         os.makedirs(args.out_folder)
@@ -128,6 +137,7 @@ if __name__ == "__main__":
             image = tio.ScalarImage(tensor=out)
             image.save(out_folder + args.output_filename)
         else:
+            out = out.int()
             label_map = tio.LabelMap(tensor=out)
             label_map.save(out_folder + args.output_filename)
         pbar.update(1)

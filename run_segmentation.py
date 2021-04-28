@@ -67,6 +67,7 @@ def hippo_inference(context, args, i, log_callback=None):
 
     return out
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Auto Hippocampus Segmentation")
     parser.add_argument("model_path", type=str, help="Path to the model.")
@@ -112,8 +113,8 @@ if __name__ == "__main__":
 
     # Fix torchio deprecating something...
     fixed_transform = tio.Compose([
-        tio.RescaleIntensity((-1, 1), (0.5, 99.5)),
         tio.Crop((62, 62, 70, 58, 0, 0)),
+        tio.RescaleIntensity((-1, 1), (0.5, 99.5)),
         tio.Pad((0, 0, 0, 0, 2, 2)),
         tio.ZNormalization(),
     ])

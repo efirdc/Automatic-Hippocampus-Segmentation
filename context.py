@@ -7,30 +7,37 @@ class ct:
     def __init__(self, tname):
         self.tname = tname
 
+
 class Context:
-    def __init__(self, device, name=None, parts=None, file_name=None, include=None, patch=None, variables=None):
-        assert parts is not None or file_name is not None
+    def __init__(self, device, name=None, parts=None, file_name=None, include=None, patch=None, variables=None,
+                 globals=None):
+        if file_name is None:
+            assert name is not None, "name is required for a new context"
+        self.globals = globals
+        self.name = name
         self.device = device
+        self.epoch = 0
+        self.iteration = 0
+        self.creation_time = datetime.now().strftime("%y%m%d-%H%M%S")
+        self.info = {}
+        self.variables = variables if variables is not None else {}
+        self.parts = []
 
         if parts is not None:
-            assert name is not None
-            self.name = name
-            self.parts = parts
+            self.parts = list(parts)
             for part in self.parts:
                 part["constructor"] = part["constructor"].__name__
-            self.epoch = 0
-            self.iteration = 0
-            self.creation_time = datetime.now().strftime("%y%m%d-%H%M%S")
-            self.info = {}
-            self.variables = variables if variables is not None else {}
-
-        else:
+        elif file_name is not None:
             checkpoint = torch.load(file_name)
+            if "variables" in checkpoint:
+                old_vars = checkpoint["variables"]
+                if set(self.variables.keys()) != set(old_vars.keys()):
+                    raise ValueError(f"Loading this context requires variables {set(old_vars.keys())}.")
             self.name = checkpoint["name"]
             if include is None:
-                self.parts = checkpoint["parts"]
+                self.parts = list(checkpoint["parts"])
             else:
-                self.parts = tuple([part for part in checkpoint["parts"] if part['name'] in include])
+                self.parts = [part for part in checkpoint["parts"] if part['name'] in include]
 
             if patch is not None:
                 for part in self.parts:
@@ -41,15 +48,11 @@ class Context:
             self.epoch = checkpoint["epoch"]
             self.iteration = checkpoint["iteration"]
             self.creation_time = checkpoint["creation_time"]
-            self.variables = {}
-            if "variables" in checkpoint:
-                self.variables = checkpoint["variables"]
             self.info = {}
             if "info" in checkpoint:
                 self.info = checkpoint["info"]
 
         self.time_name = f'{self.creation_time}_{self.name}'
-
         self.state = {}
         for part in self.parts:
             self._init_part(part)
@@ -60,30 +63,42 @@ class Context:
         else:
             return None
 
-
-    def add_part(self, i, part):
-        context_globals[part["constructor"].__name__] = part["constructor"]
-        part["constructor"] = part["constructor"].__name__
-
-        parts = list(self.parts)
-        parts.insert(i, part.copy())
-
-        self.parts = tuple(parts)
+    def add_part(self, name, constructor, **params):
+        part = dict(name=name, constructor=constructor.__name__, params=params)
+        self.parts.append(part)
         self._init_part(part)
+
+    def insert_part(self, i, name, constructor, **params):
+        part = dict(name=name, constructor=constructor.__name__, params=params)
+        self.parts.insert(i, part)
+        self._init_part(part)
+
+    def _fix_params(self, params):
+        if isinstance(params, dict):
+            return {k: self._fix_params(v) for k, v in params.items()}
+        if isinstance(params, list):
+            return [self._fix_params(param) for param in params]
+        if isinstance(params, tuple):
+            return tuple(self._fix_params(param) for param in params)
+
+        param = params
+        if isinstance(param, ct):
+            return eval("self." + param.tname)
+        if isinstance(param, str):
+            for variable, value in self.variables.items():
+                if not isinstance(value, str):
+                    continue
+                param = param.replace("$" + variable, value)
+            return param
+        return param
 
     def _init_part(self, part):
         name = part["name"]
-        constructor = context_globals[part["constructor"]]
-        params = part["params"].copy()
-
-        for k, v in params.items():
-            if isinstance(v, ct):
-                params[k] = eval("self." + v.tname)
-            if isinstance(v, str):
-                for k2, v2 in self.variables.items():
-                    if not isinstance(v2, str):
-                        continue
-                    params[k] = v.replace("$" + k2, v2)
+        if self.globals is None:
+            constructor = context_globals[part["constructor"]]
+        else:
+            constructor = self.globals[part["constructor"]]
+        params = self._fix_params(part["params"])
 
         if "optimize_target" in part:
             target = self.state[part["optimize_target"]]
